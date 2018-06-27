@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Sitecore.ContentSearch;
+using Sitecore.ContentSearch.Diagnostics;
 using Sitecore.Data.Items;
 using Sitecore.SecurityModel;
 
@@ -16,11 +17,13 @@ namespace Sitecore.Support.ContentSearch
 
       if (sitecoreIndexable == null)
       {
+        SearchLog.Log.Info("SITECORE SUPPORT: sitecoreIndexable is NULL. Actual type is " + indexable.GetType());
         return int.MaxValue;
       }
 
       if (GetRootItemMethodInfo.Invoke(this, new object[0]) == null)
       {
+        SearchLog.Log.Info("SITECORE SUPPORT: Root is null. Root: " + this.Root);
         return int.MaxValue;
       }
 
