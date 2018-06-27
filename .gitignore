@@ -1,0 +1,7 @@
+src/.vs/
+src/packages/
+src/Sitecore.Support.Diagnostics.FetchIndex/bin/
+src/Sitecore.Support.Diagnostics.FetchIndex/obj/
+*.pubxml
+*.user
+*.suo
