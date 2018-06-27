@@ -3,6 +3,7 @@ using System.Linq;
 using Sitecore.Caching.Generics;
 using Sitecore.ContentSearch;
 using Sitecore.ContentSearch.Abstractions;
+using Sitecore.ContentSearch.Diagnostics;
 using Sitecore.ContentSearch.Pipelines.GetContextIndex;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
@@ -55,21 +56,25 @@ namespace Sitecore.Support.ContentSearch.Pipelines.GetContextIndex
       {
         return null;
       }
+      SearchLog.Log.Info("SITECORE SUPPORT: Resolving index for " + indexable.AbsolutePath);
 
       var indexes = from searchIndex in ContentSearchManager.Indexes
                     from providerCrawler in searchIndex.Crawlers
                     where !providerCrawler.IsExcludedFromIndex(indexable)
                     select searchIndex;
+      SearchLog.Log.Info("SITECORE SUPPORT: Candidates: " + string.Join(", ", indexes.Select(i => i.Name)));
 
       if (!indexes.Any())
       {
         indexes = this.FindIndexesRelatedToIndexable(args.Indexable, ContentSearchManager.Indexes);
       }
+      SearchLog.Log.Info("SITECORE SUPPORT: Indexes related to indexable: " + string.Join(", ", indexes.Select(i => i.Name)));
 
       // ReSharper disable once PossibleMultipleEnumeration
       var rankedIndexes = RankContextIndexes(indexes, indexable);
 
       var searchIndices = rankedIndexes as Tuple<ISearchIndex, int>[] ?? rankedIndexes.ToArray();
+      SearchLog.Log.Info("SITECORE SUPPORT: Ranked indexes: " + string.Join(", ", searchIndices.Select(i => i.First.Name + ":" + i.Second)));
 
       // No crawlers index this item..
       if (!searchIndices.Any())
@@ -92,6 +97,7 @@ namespace Sitecore.Support.ContentSearch.Pipelines.GetContextIndex
       // Get default type from setting ..
       var defaultTypeString = this.settings.GetSetting("ContentSearch.DefaultIndexType", "");
       var defaultType = ReflectionUtil.GetTypeInfo(defaultTypeString);
+      SearchLog.Log.Info("SITECORE SUPPORT: ContentSearch.DefaultIndexType: " + defaultType);
 
       //If we cant evaluate this type then return first ..
       if (defaultType == null)
@@ -101,6 +107,7 @@ namespace Sitecore.Support.ContentSearch.Pipelines.GetContextIndex
 
       // Return the one that matches the default type ..
       var matchedIndex = searchIndices.Where(i => i.First.GetType() == defaultType).OrderBy(i => i.First.Name).ToArray();
+      SearchLog.Log.Info("SITECORE SUPPORT: Matched indexes: " + string.Join(", ", matchedIndex.Select(i => i.First.Name + ":" + i.Second)));
       return matchedIndex.Any() ? matchedIndex[0].First.Name : searchIndices[0].First.Name;
     }
 
