@@ -1,0 +1,22 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{DC6F0BA5-AF97-4C7D-9FF9-B8CBD9E9FE78}") = "Sitecore.Support.Diagnostics.FetchIndex", "Sitecore.Support.Diagnostics.FetchIndex\Sitecore.Support.Diagnostics.FetchIndex.csproj", "{3AA2FCD9-F10C-4B9A-B953-9E5046C3021E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3AA2FCD9-F10C-4B9A-B953-9E5046C3021E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA2FCD9-F10C-4B9A-B953-9E5046C3021E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA2FCD9-F10C-4B9A-B953-9E5046C3021E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA2FCD9-F10C-4B9A-B953-9E5046C3021E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
