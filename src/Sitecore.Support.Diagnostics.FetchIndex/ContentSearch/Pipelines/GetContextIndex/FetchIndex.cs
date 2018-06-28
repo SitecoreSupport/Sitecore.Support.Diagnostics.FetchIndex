@@ -117,6 +117,7 @@ namespace Sitecore.Support.ContentSearch.Pipelines.GetContextIndex
 
       if (sitecoreIndexableItem == null)
       {
+        SearchLog.Log.Info("SITECORE SUPPORT: sitecoreIndexableItem is NULL. Actual type is " + indexable.GetType());
         return new List<ISearchIndex>();
       }
 
@@ -126,6 +127,23 @@ namespace Sitecore.Support.ContentSearch.Pipelines.GetContextIndex
       {
         using (new WriteCachesDisabler())
         {
+          foreach (var index in indexes)
+          {
+            SearchLog.Log.Info(string.Format("SITECORE SUPPORT: Probing {0} for {1}", index.Name, item.Paths.LongID));
+            foreach (var crawler in index.Crawlers)
+            {
+              var sitecoreItemCrawler = crawler as SitecoreItemCrawler;
+              if (sitecoreItemCrawler == null)
+              {
+                SearchLog.Log.Info(string.Format("SITECORE SUPPORT: Probing crawler of type {0}", crawler.GetType()));
+              }
+              else
+              {
+                SearchLog.Log.Info(string.Format("SITECORE SUPPORT: Probing crawler of type {0} with parameters {1}:{2}({3})", crawler.GetType(), sitecoreItemCrawler.Database, sitecoreItemCrawler.RootItem, sitecoreItemCrawler.RootItem.Paths.LongID));
+              }
+              
+            }
+          }
           return indexes
               .Where(i => i.Crawlers.OfType<SitecoreItemCrawler>()
                   .Where(crawler => crawler.RootItem != null)
